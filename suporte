@@ -1,0 +1,25 @@
+from fastapi import FastAPI
+
+app = FastAPI()
+
+# Simulando um "Banco de Dados" simples (Dicionário)
+chamados_db = [
+    {"id": 1, "titulo": "Troca de Teclado", "status": "Aberto"},
+    {"id": 2, "titulo": "Configuração de VPN", "status": "Concluído"},
+    {"id": 3, "titulo": "Acesso ao SQL Server", "status": "Em Progresso"}
+]
+
+@app.get("/")
+def home():
+    return {"mensagem": "API de Suporte Técnico da Carolina - Rodando!"}
+
+@app.get("/chamados")
+def listar_chamados():
+    return chamados_db
+
+@app.get("/chamados/{chamado_id}")
+def buscar_chamado(chamado_id: int):
+    for chamado in chamados_db:
+        if chamado["id"] == chamado_id:
+            return chamado
+    return {"erro": "Chamado não encontrado"}
